@@ -1,0 +1,14 @@
+import pandas as pd
+
+# pd.options.display.min_rows = 20
+# pd.options.display.max_rows = 40
+pd.options.display.max_columns = None
+pd.options.display.max_colwidth = 100
+pd.options.display.max_seq_items = None
+# pd.options.display.html.table_schema = True
+pd.options.display.show_dimensions = True
+pd.options.display.width = None
+
+pd.options.styler.format.na_rep = ""
+pd.options.styler.format.thousands = ","
+pd.options.styler.format.precision = 3
