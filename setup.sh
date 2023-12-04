@@ -14,7 +14,7 @@ download_to_tmp_dir() {
 install_base_packages() {
     echo
     echo "Installing Base Packages..."
-    sudo apt install git curl wget vim unzip -y
+    sudo apt install git curl wget vim unzip nodejs npm -y
     # nodejs and npm ?
 }
 
@@ -83,8 +83,8 @@ setup_kde() {
     echo
     echo "Importing KDE Settings..."
     pipx install konsave
-    #     konsave -i muse.knsv
-    #     konsave -a muse
+    #     konsave -i kubuntu.knsv
+    #     konsave -a kubuntu
     # Set up force-blur (https://github.com/esjeon/kwin-forceblur)
     # install esjeon/kwin-forceblur through KWin Scripts in Settings > Get New Scripts... (Force Blur) version .5.1
     mkdir -p ~/.local/share/kservices5/
@@ -158,7 +158,7 @@ setup_logitech_options() {
     echo "Installing Logitech Options..."
     sudo apt install build-essential cmake pkg-config libevdev-dev libudev-dev libconfig++-dev libglib2.0-dev -y
     (mkdir -p /tmp/logitech && cd /tmp/logitech && git clone https://github.com/PixlOne/logiops.git && mkdir logiops/build && cd logiops/build && cmake -DCMAKE_BUILD_TYPE=Release .. && make && sudo make install)
-    sudo cp logid.cfg /etc/ # [x]: Need to edit logid.cfg
+    sudo cp logid.cfg /etc/
     systemctl enable --now logid
     logid &
 }
@@ -166,8 +166,20 @@ setup_logitech_options() {
 setup_keys() {
     echo
     echo "Configuring Keys..."
-    # []: Install logkeys
-    # []: Install dual key map for capslock xcape
+    kwriteconfig5 --file kwinrc --group ModifierOnlyShortcuts --key Meta "org.kde.kglobalaccel,/component/kwin,,invokeShortcut,Overview"
+    # [x]: Install logkeys
+    # [x]: Install dual key map for capslock xcape
+
+    echo
+    echo "Configuring xcape..."
+    sudo apt install xcape
+    # sudo apt-get install git gcc make pkg-config libx11-dev libxtst-dev libxi-dev
+    # git clone https://github.com/alols/xcape.git /tmp/xcape
+    # (cd /tmp/xcape && make && sudo make install)
+    # xcape -e 'Caps_Lock=Escape' -t 100
+    cp xcape.service ~/.config/systemd/user/
+    systemctl --user enable xcape
+    systemctl --user start xcape
 
     echo
     echo "Installing logkeys..."
@@ -177,7 +189,7 @@ setup_keys() {
     # log file located at /var/log/logkeys.log
 }
 
-setup_chrome_remote_desktop() {
+setup_remote_desktop() {
     echo
     echo "Installing Chrome Remote Desktop..."
 }
